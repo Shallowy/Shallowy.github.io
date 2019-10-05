@@ -184,10 +184,10 @@
 <p>$$f(n,A,B)=s(n-1,A+B-2)\times C_{A+B-2}^{A-1}$$</p>
 <p>　　最后只要分治套$FFT$或者倍增求一个第一类斯特林数即可。</p>
 <h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><pre><code class="lang-cpp">
-#include<iostream>
-#include<cstdio>
-#include<cctype>
-#include<vector>
+#include <iostream>
+#include <cstdio>
+#include <cctype>
+#include <vector>
 #define il inline
 #define vd void
 #define rg register
@@ -201,7 +201,7 @@ char buf[Len],*p1=buf,*p2=buf,duf[Len],*q1=duf;
 il char gc(); il int rd(); il vd pc(char c); il vd rt(int x); il vd flush();
 il int Pow(int a,int b){int ans=1; for(a%=P;b;b&1?ans=1ll*ans*a%P:0,a=1ll*a*a%P,b>>=1); return ans;}
 int n,A,B,N=1,l=-1,r[mn];
-il vd NTT(vector<int> &a,int o){int x,y;
+il vd NTT(vector <int> &a,int o){int x,y;
     for(rg int i=0;i<n;++i) if(i<r[i]) swap(a[i],a[r[i]]); for(rg int i="1;i<N;i<<=1){" p="i<<1,c=Pow(G,(P-1)/p);" if(o) c="Pow(c,P-2);" j="0;j<N;j+=p)" k="0,w=1;k<i;++k,w=1ll*w*c%P)" x="a[j+k],y=1ll*w*a[j+k+i]%P,a[j+k]=(x+y)%P,a[j+k+i]=(x-y+P)%P;" } if(o){ inv="Pow(N,P-2);" a[i]="1ll*a[i]*inv%P;" il fac(int x){int ans="1;" rep(i,2,x) return ans;} c(int n,int m){ if(n<m) 0; 1ll*fac(n)*pow(fac(m),p-2)%p*pow(fac(n-m),p-2)%p; vd pre(int len){ n="1,l=-1;" while(n<="len)" n<<="1,++l;" r[i]="(r[i">>1]>>1)|((i&1)<<l); } vector <int> Solve(int l,int r){
     if(l==r) return {l,1};
     int mid=(l+r)>>1;
