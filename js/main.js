@@ -16,7 +16,7 @@
     });
   };
   // Find Prism code snippet and escape markup
-  $('.language-markup').each(function() {
+  $('.lang-cpp').each(function() {
     var codeHtml = $(this).html();
     codeHtml = escapeHTML(codeHtml);
     $(this).html(codeHtml);
