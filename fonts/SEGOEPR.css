@@ -1,0 +1,12 @@
+@charset "UTF-8";
+
+@font-face {
+  font-family: "SEGOEPR";
+  src: url("SEGOEPR.woff2") format("woff2"),
+       url("SEGOEPR.woff") format("woff"),
+       url("SEGOEPR.ttf") format("truetype"),
+       url("SEGOEPR.eot") format("embedded-opentype"),
+       url("SEGOEPR.svg") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
