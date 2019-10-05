@@ -62,8 +62,7 @@
     <script src="/js/skel.min.js"></script>
     <script src="/js/util.js"></script>
     <script src="/js/main.js"></script>
-    <script src="/js/prism-unescaped-markup.js"></script>
-    <script src="/js/prism-unescaped-markup.min.js"></script>
+    <script src="/js/change.js"></script>
 	
 </head>
     
@@ -73,7 +72,6 @@
 
 
 <!--  代码渲染  -->
-<link rel="stylesheet" href="/css/prism-unescaped-markup.css">
 <link rel="stylesheet" href="/css/typo.css">
 <link href="/css/prism.css" rel="stylesheet">
 <!-- 文章页 -->
@@ -186,7 +184,7 @@
 <p>　　然后我们只要在这些块里取出$A-1$块放到答案排列中$n$前面，另外$B-1$块放在后面即可。</p>
 <p>$$f(n,A,B)=s(n-1,A+B-2)\times C_{A+B-2}^{A-1}$$</p>
 <p>　　最后只要分治套$FFT$或者倍增求一个第一类斯特林数即可。</p>
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><pre><code class="lang-cpp">
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><script type="text/plain" class="lang-cpp">
 #include <iostream>
 #include <cstdio>
 #include <cctype>
@@ -197,7 +195,8 @@
 #define G 3
 #define P 998244353
 #define mn 132333
-#define rep(i,x,y) for(rg int i=x;i<=y;++i) #define drp(i,x,y) for(rg int i="x;i">=y;--i)
+#define rep(i,x,y) for(rg int i=x;i<=y;++i)
+#define drp(i,x,y) for(rg int i=x;i>=y;--i)
 using namespace std;
 const int Len=2333333;
 char buf[Len],*p1=buf,*p2=buf,duf[Len],*q1=duf;
@@ -205,16 +204,61 @@ il char gc(); il int rd(); il vd pc(char c); il vd rt(int x); il vd flush();
 il int Pow(int a,int b){int ans=1; for(a%=P;b;b&1?ans=1ll*ans*a%P:0,a=1ll*a*a%P,b>>=1); return ans;}
 int n,A,B,N=1,l=-1,r[mn];
 il vd NTT(vector <int> &a,int o){int x,y;
-    for(rg int i=0;i<n;++i) if(i<r[i]) swap(a[i],a[r[i]]); for(rg int i="1;i<N;i<<=1){" p="i<<1,c=Pow(G,(P-1)/p);" if(o) c="Pow(c,P-2);" j="0;j<N;j+=p)" k="0,w=1;k<i;++k,w=1ll*w*c%P)" x="a[j+k],y=1ll*w*a[j+k+i]%P,a[j+k]=(x+y)%P,a[j+k+i]=(x-y+P)%P;" } if(o){ inv="Pow(N,P-2);" a[i]="1ll*a[i]*inv%P;" il fac(int x){int ans="1;" rep(i,2,x) return ans;} c(int n,int m){ if(n<m) 0; 1ll*fac(n)*pow(fac(m),p-2)%p*pow(fac(n-m),p-2)%p; vd pre(int len){ n="1,l=-1;" while(n<="len)" n<<="1,++l;" r[i]="(r[i">>1]>>1)|((i&1)<<l); } vector <int> Solve(int l,int r){
+    for(rg int i=0;i<N;++i) if(i<r[i]) swap(a[i],a[r[i]]);
+    for(rg int i=1;i<N;i<<=1){
+        int p=i<<1,c=Pow(G,(P-1)/p);
+        if(o) c=Pow(c,P-2);
+        for(rg int j=0;j<N;j+=p)
+            for(rg int k=0,w=1;k<i;++k,w=1ll*w*c%P)
+                x=a[j+k],y=1ll*w*a[j+k+i]%P,a[j+k]=(x+y)%P,a[j+k+i]=(x-y+P)%P;
+    }
+    if(o){
+        int inv=Pow(N,P-2);
+        for(rg int i=0;i<N;++i) a[i]=1ll*a[i]*inv%P;
+    }
+}
+il int Fac(int x){int ans=1; rep(i,2,x) ans=1ll*ans*i%P; return ans;}
+il int C(int n,int m){
+    if(n<m) return 0;
+    return 1ll*Fac(n)*Pow(Fac(m),P-2)%P*Pow(Fac(n-m),P-2)%P;
+}
+il vd Pre(int len){
+    N=1,l=-1;
+    while(N<=len) N<<=1,++l;
+    for(rg int i=0;i<N;++i) r[i]=(r[i>>1]>>1)|((i&1)<<l);
+}
+vector <int> Solve(int l,int r){
     if(l==r) return {l,1};
     int mid=(l+r)>>1;
     vector <int> a=Solve(l,mid),b=Solve(mid+1,r);
     int len=a.size()+b.size()-2;
     Pre(len),a.resize(N),b.resize(N),NTT(a,0),NTT(b,0);
-    for(rg int i=0;i<n;++i) a[i]="1ll*a[i]*b[i]%P;" ntt(a,1),a.resize(len+1); return a; } int main(){ n="rd(),A=rd(),B=rd();" if(!a||!b) puts("0"),0; if(n="=1)" puts(a+b="=2?" 1":"0"),0;" vector <int> f=Solve(0,n-2);
-    //for(rg int i=0;i<(int)f.size();++i) printf("%d ",f[i]); f.resize(n+n+1); rt(1ll*f[a+b-2]*c(a+b-2,a-1)%p); return flush(),0; } il char gc(){return p1="=p2&&(p2=(p1=buf)+fread(buf,1,Len,stdin),p1==p2)?-1:*p1++;}" int rd(){char c; while(!isdigit(c="gc())&&c!='-');" f="c=='-'?c=gc(),1:0,x=c^48;" while(isdigit(c="gc()))" x="((x+(x<<2))<<1)+(c^48);" f?-x:x; vd pc(char c){q1="=duf+Len&&fwrite(q1=duf,1,Len,stdout),*q1++=c;}" rt(int x){x<0?pc('-'),x="-x:0,pc((x">=10?rt(x/10),x%10:x)+48);}
+    for(rg int i=0;i<N;++i) a[i]=1ll*a[i]*b[i]%P;
+    NTT(a,1),a.resize(len+1);
+    return a;
+}
+int main(){
+    n=rd(),A=rd(),B=rd();
+    if(!A||!B) return puts("0"),0;
+    if(n==1) return puts(A+B==2?"1":"0"),0;
+    vector <int> f=Solve(0,n-2);
+    //for(rg int i=0;i<(int)f.size();++i) printf("%d ",f[i]);
+    f.resize(n+n+1);
+    rt(1ll*f[A+B-2]*C(A+B-2,A-1)%P);
+    return flush(),0;
+}
+
+il char gc(){return p1==p2&&(p2=(p1=buf)+fread(buf,1,Len,stdin),p1==p2)?-1:*p1++;}
+il int rd(){char c;
+    while(!isdigit(c=gc())&&c!='-');
+    int f=c=='-'?c=gc(),1:0,x=c^48;
+    while(isdigit(c=gc())) x=((x+(x<<2))<<1)+(c^48);
+    return f?-x:x;
+}
+il vd pc(char c){q1==duf+Len&&fwrite(q1=duf,1,Len,stdout),*q1++=c;}
+il vd rt(int x){x<0?pc('-'),x=-x:0,pc((x>=10?rt(x/10),x%10:x)+48);}
 il vd flush(){fwrite(duf,1,q1-duf,stdout);}
-</(int)f.size();++i)></n;++i)></int></l);></n;++i)></int></=y;++i)></vector></cctype></cstdio></iostream></code></pre>
+</script>
             </div>
 
             <!-- Post Comments -->
