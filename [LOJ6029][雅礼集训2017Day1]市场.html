@@ -194,7 +194,7 @@
 <p>设区间最大值为$a$，最小值为$b$，除数为$k(k&gt;1)$。</p>
 <p>令$a=p_1k+q_1,b=p_2k+q_2(0\leq q_1,q_2&lt;k)$。</p>
 <p>由于变化量相同，有</p>
-<p>$$\begin{aligned}a-\lfloor\frac{a}{k}\rfloor&amp;=b-\lfloor\frac{b}{k}\rfloor \ a-b&amp;=\lfloor\frac{a}{k}\rfloor-\lfloor\frac{b}{k}\rfloor\ p_1k+q_1-p_2k-q_2&amp;=p_1-p_2\ (p_1-p_2)(k-1)&amp;=q_2-q_1 \end{aligned}$$</p>
+<p>$$\begin{eqnarray}a-\lfloor\frac{a}{k}\rfloor&amp;=&amp;b-\lfloor\frac{b}{k}\rfloor \ a-b&amp;=&amp;\lfloor\frac{a}{k}\rfloor-\lfloor\frac{b}{k}\rfloor\ p_1k+q_1-p_2k-q_2&amp;=&amp;p_1-p_2\ (p_1-p_2)(k-1)&amp;=&amp;q_2-q_1 \end{eqnarray}$$</p>
 <p>$$a\geq b\Rightarrow p_1\geq p_2$$</p>
 <ol>
 <li>当$p_1=p_2$时，$q_1=q_2,a=b$；</li>
@@ -204,8 +204,7 @@
 </blockquote>
 <p>　　至此，复杂度分析才真正正确。当然也可以根据势能分析，这个其他博主都有讲到，就不再赘述了。</p>
 <h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>　　需要在题目要求基础上多维护一个区间最大值。</p>
-<script type="text/plain" class="lang-cpp line_numbers">
-#include <iostream>
+<script type="text/plain" class="lang-cpp line_numbers">#include <iostream>
 #include <cstdio>
 #include <cctype>
 #include <cmath>
@@ -265,7 +264,7 @@ vd Div(int u){
         int y=floor(a[u].mn/(double)x)-a[u].mn;
         a[u].mn+=y,a[u].mx+=y,a[u].v+=1ll*(a[u].r-a[u].l+1)*y,a[u].f+=y;
         return;
-    }//这里用的是上面推出来的式子，注意手写负数下取整
+    }//这里判断用的是上面推出来的式子，注意手写负数下取整
     down(u),Div(lu),Div(ru),Upd(u);
 }
 vd Query(int u){
@@ -300,8 +299,6 @@ il vd pc(char c){q1==duf+Len&&fwrite(q1=duf,1,Len,stdout),*q1++=c;}
 il vd rt(ll x){x<0?pc('-'),x=-x:0,pc((x>=10?rt(x/10),x%10:x)+48);}
 il vd flush(){fwrite(duf,1,q1-duf,stdout);}    
 </script>
-
-
             </div>
 
             <!-- Post Comments -->
