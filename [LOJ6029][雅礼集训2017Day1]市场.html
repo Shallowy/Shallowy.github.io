@@ -167,7 +167,19 @@
             <div class="typo" style="padding: 3rem;">
                 <h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2><p>　　有$n$个数$a_1,a_2,\dots a_n$，$q$个操作，支持区间加$c$，<strong>区间除(下取整)$d$</strong>，区间求最小值，区间求和。</p>
 <p>　　$1\leq n,q\leq 10^5,c\in[-10^4,10^4],d\in[2,10^9].$</p>
-<h2 id="简单分析"><a href="#简单分析" class="headerlink" title="简单分析"></a>简单分析</h2><p>　　有点<strong>势能线段树</strong>的感觉。大概意思就是每个数不断除以一个大于$1$的整数的话</p>
+<h2 id="简单分析"><a href="#简单分析" class="headerlink" title="简单分析"></a>简单分析</h2><p>　　有点<strong>势能线段树</strong>的感觉。大概意思就是每个数不断除以一个大于$1$的整数的话在很少的次数内就会变得很小，之后更多的除法就不产生影响了。类似于经典的线段树解决<strong>区间开根</strong>的问题。</p>
+<h2 id="介绍错解…"><a href="#介绍错解…" class="headerlink" title="介绍错解…"></a>介绍错解…</h2><p>　　想了比较久的一个$naive$想法…</p>
+<p>　　首先，由于除法打标记并不好做，所以必须想办法进行一些转化。注意到如果一个区间的所有数都一样，那么同时除以一个数后这个区间的数还是都一样，这不就成为了一个区间加的操作了嘛！</p>
+<p>　　于是我在线段树节点里额外维护了一个值表示<strong>当前区间的数是否都相等</strong>，做区间除的时候如果遇到所有值都相等的区间就直接转化为<strong>区间加</strong>，打完标记直接退出；否则<strong>暴力两边递归</strong>下去。</p>
+<h3 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h3><p>　　显然<strong>一个数最多会被暴力除$log$级别的次数</strong>，这样是$O(nlog_2$值域$)$的；然后<strong>每次区间加最多会使$log_2n$级别个区间由数值都相等变成不等</strong>(对于一个节点，仅当它表示的区间和当前区间有交且不被当前区间包含时有可能会被影响)，这些区间要重新暴力除，算起来是$O(nlog_2nlog_2$值域$)$。</p>
+<h3 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h3><p>　　$T$飞了…</p>
+<h2 id="正解"><a href="#正解" class="headerlink" title="正解"></a>正解</h2><p>　　上面的复杂度分析没问题啊，哪错了？？？</p>
+<blockquote>
+<p>其实在前面的分析里出了一个容易被忽略的漏洞，我也是搞了半天才发现…</p>
+<p>首先本题的数值可以为<strong>负</strong>。</p>
+<p>关键问题是<strong>负数带余除法法则</strong>：</p>
+<font color="red"><strong>由于余数不能为负，所以当除数为负时要把除数化为正并给被除数变号，然后被除数可以表示成$x=py+q(0\leq q&lt;y)$的形式，其中$x$为被除数，$y$为除数，$p$为商，$q$即为余数。</strong></font>
+</blockquote>
 
             </div>
 
