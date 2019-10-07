@@ -178,8 +178,129 @@
 <p>其实在前面的分析里出了一个容易被忽略的漏洞，我也是搞了半天才发现…</p>
 <p>首先本题的数值可以为<strong>负</strong>。</p>
 <p>关键问题是<strong>负数带余除法法则</strong>：</p>
-<font color="red"><strong>由于余数不能为负，所以当除数为负时要把除数化为正并给被除数变号，然后被除数可以表示成$x=py+q(0\leq q&lt;y)$的形式，其中$x$为被除数，$y$为除数，$p$为商，$q$即为余数。</strong></font>
+<p><b><font color="red">由于余数不能为负，所以当除数为负时要把除数化为正并给被除数变号，然后被除数可以表示成$x=py+q(0\leq q&lt;y)$的形式，其中$x$为被除数，$y$为除数，$p$为商，$q$即为余数。</font></b></p>
+<p>这也决定了负数除法下取整的方式：<strong>向负无穷方向取整</strong>。</p>
+<p>（注意$C++$本身的四舍五入是<strong>向$0$取整</strong>，所以这题的下取整需手写）</p>
+<p>所以我们可以轻松构造出一个反例…</p>
+<p>$$-1,0,-1,0\dots -1,0$$</p>
+<p>我们每次对整个区间除以$2$，然后我们会发现这对整个区间没有任何影响…但是不难发现所有数都被暴力除了！</p>
+<p>也就是说，上面分析里“每个数最多会被除$log$级别次”是假的，之前的错误在于<strong>误认为一个数会被除到$0$然后不受影响</strong>，但是事实上负数的下取整破灭了这个想法。</p>
 </blockquote>
+<p>　　好，我们再观察一下，不难想到解决的办法。</p>
+<p>　　我们考虑一个区间如果<strong>做完除法后所有数的变化量相同</strong>，其实就已经可以转化成区间加了。这也完美解决了上面的问题。</p>
+<p>　　考虑如何判断这种情况，我们发现对于一个固定的除数$k$，函数$f(x)=\lfloor\frac{x}{k}\rfloor$是<strong>单调不降</strong>的，利用这点，只要区间内<strong>最大值和最小值的变化量相同</strong>，那么所有数的变化量就是相同的。</p>
+<p>　　我们也可以具体地推一下式子：</p>
+<blockquote>
+<p>设区间最大值为$a$，最小值为$b$，除数为$k(k&gt;1)$。</p>
+<p>令$a=p_1k+q_1,b=p_2k+q_2(0\leq q_1,q_2&lt;k)$。</p>
+<p>由于变化量相同，有</p>
+<p>$$\begin{aligned}a-\lfloor\frac{a}{k}\rfloor&amp;=b-\lfloor\frac{b}{k}\rfloor \ a-b&amp;=\lfloor\frac{a}{k}\rfloor-\lfloor\frac{b}{k}\rfloor\ p_1k+q_1-p_2k-q_2&amp;=p_1-p_2\ (p_1-p_2)(k-1)&amp;=q_2-q_1 \end{aligned}$$</p>
+<p>$$a\geq b\Rightarrow p_1\geq p_2$$</p>
+<ol>
+<li>当$p_1=p_2$时，$q_1=q_2,a=b$；</li>
+<li>当$p_1&gt;p_2$时，因为$q_2-q_1&lt;k,k-1&gt;0$，故$p_1=p_2+1,q_2=q_1+k-1$，此时$a-b=1$且$a$必是$k$的倍数。</li>
+</ol>
+<p>也可以用这个方法进行判断。</p>
+</blockquote>
+<p>　　至此，复杂度分析才真正正确。当然也可以根据势能分析，这个其他博主都有讲到，就不再赘述了。</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>　　需要在题目要求基础上多维护一个区间最大值。</p>
+<script type="text/plain" class="lang-cpp line_numbers">
+#include <iostream>
+#include <cstdio>
+#include <cctype>
+#include <cmath>
+#define il inline
+#define vd void
+#define rg register
+#define N 100005
+#define ll long long
+#define lu u<<1
+#define ru u<<1^1
+#define rep(i,x,y) for(rg int i=x;i<=y;++i)
+#define drp(i,x,y) for(rg int i=x;i>=y;--i)
+using namespace std;
+const int Len=2333333;
+char buf[Len],*p1=buf,*p2=buf,duf[Len],*q1=duf;
+il char gc(); il int rd(); il vd pc(char c); il vd rt(ll x); il vd flush();
+template<class T> il T Max(T a,T b){return a>b?a:b;}
+template<class T> il T Min(T a,T b){return a<b?a:b;}
+int n,q,opt,x,l,r,cc,d[N];
+ll ans;
+struct tree{
+    int l,r,f,mn,mx;
+    ll v;
+}a[N<<2];//f:区间加标记;mn:min;mx:max
+il vd Upd(int u){
+    a[u].v=a[lu].v+a[ru].v,
+    a[u].mn=Min(a[lu].mn,a[ru].mn),
+    a[u].mx=Max(a[lu].mx,a[ru].mx);
+}
+il vd down(int u){
+    if(a[u].f){
+        a[lu].f+=a[u].f,a[ru].f+=a[u].f,
+        a[lu].mn+=a[u].f,a[ru].mn+=a[u].f,
+        a[lu].mx+=a[u].f,a[ru].mx+=a[u].f,
+        a[lu].v+=1ll*(a[lu].r-a[lu].l+1)*a[u].f,
+        a[ru].v+=1ll*(a[ru].r-a[ru].l+1)*a[u].f;
+        a[u].f=0;
+    }
+}
+vd Build(int u,int l,int r){
+    a[u].l=l,a[u].r=r;
+    if(l==r) return void(a[u].v=a[u].mn=a[u].mx=d[l]);
+    int mid=(l+r)>>1;
+    Build(lu,l,mid),Build(ru,mid+1,r),Upd(u);
+}
+vd Add(int u){
+    if(a[u].r<l||a[u].l>r) return;
+    if(a[u].l>=l&&a[u].r<=r){
+        a[u].mn+=x,a[u].mx+=x,a[u].v+=1ll*(a[u].r-a[u].l+1)*x,a[u].f+=x;
+        return;
+    }
+    down(u),Add(lu),Add(ru),Upd(u);
+}
+vd Div(int u){
+    if(a[u].r<l||a[u].l>r) return;
+    if(a[u].l>=l&&a[u].r<=r&&(a[u].mn==a[u].mx||(a[u].mn+1==a[u].mx&&!(a[u].mx%x)))){
+        int y=floor(a[u].mn/(double)x)-a[u].mn;
+        a[u].mn+=y,a[u].mx+=y,a[u].v+=1ll*(a[u].r-a[u].l+1)*y,a[u].f+=y;
+        return;
+    }//这里用的是上面推出来的式子，注意手写负数下取整
+    down(u),Div(lu),Div(ru),Upd(u);
+}
+vd Query(int u){
+    if(a[u].r<l||a[u].l>r) return;
+    if(a[u].l>=l&&a[u].r<=r) return void(ans=opt==3?Min(ans,(ll)a[u].mn):ans+a[u].v);
+    down(u),Query(lu),Query(ru),Upd(u);
+}
+int main(){
+    n=rd(),q=rd();
+    rep(i,1,n) d[i]=rd();
+    Build(1,1,n);
+    while(q--){
+        opt=rd(),l=rd()+1,r=rd()+1;
+        switch(opt){
+            case 1:x=rd(),Add(1); break;
+            case 2:x=rd(),Div(1); break;
+            case 3:ans=1e14,Query(1),rt(ans),pc('\n'); break;
+            default:ans=0ll,Query(1),rt(ans),pc('\n');
+        }
+    }
+    return flush(),0;
+}
+
+il char gc(){return p1==p2&&(p2=(p1=buf)+fread(buf,1,Len,stdin),p1==p2)?-1:*p1++;}
+il int rd(){char c;
+    while(!isdigit(c=gc())&&c!='-');
+    int f=c=='-'?c=gc(),1:0,x=c^48;
+    while(isdigit(c=gc())) x=((x+(x<<2))<<1)+(c^48);
+    return f?-x:x;
+}
+il vd pc(char c){q1==duf+Len&&fwrite(q1=duf,1,Len,stdout),*q1++=c;}
+il vd rt(ll x){x<0?pc('-'),x=-x:0,pc((x>=10?rt(x/10),x%10:x)+48);}
+il vd flush(){fwrite(duf,1,q1-duf,stdout);}    
+</script>
+
 
             </div>
 
