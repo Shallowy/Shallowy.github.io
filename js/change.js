@@ -1,4 +1,4 @@
-$$("script[type='text/plain']").forEach(script=>{
+("script[type='text/plain']").forEach(script=>{
     var pre = document.createElement("pre");
     var code = document.createElement("code");
     code.className = script.className;
