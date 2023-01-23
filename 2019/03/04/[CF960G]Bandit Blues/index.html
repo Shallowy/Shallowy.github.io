@@ -1,0 +1,249 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>$[CF960G]Bandit\ Blues$ | Shallowy</title><meta name="author" content="John Doe"><meta name="copyright" content="John Doe"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="题意　　定义序列中“前缀最大值”为大于前面所有数的数值，“后缀最大值”定义相反。 　　求有多少长度为$n$的排列使得前缀最大值有$A$个，后缀最大值有$B$个。 　　$N&lt;&#x3D;1e5$，对$998244353$取模。 胡思乱想　　想了想，似乎很难找到线性状态往后递推的$dp$方程… 　　自闭自闭。 题解　　考虑一些性质。 　　首先长度为$n$的排列中，由于$n$是最大值，所以$n$后">
+<meta property="og:type" content="article">
+<meta property="og:title" content="$[CF960G]Bandit\ Blues$">
+<meta property="og:url" content="http://example.com/2019/03/04/[CF960G]Bandit%20Blues/index.html">
+<meta property="og:site_name" content="Shallowy">
+<meta property="og:description" content="题意　　定义序列中“前缀最大值”为大于前面所有数的数值，“后缀最大值”定义相反。 　　求有多少长度为$n$的排列使得前缀最大值有$A$个，后缀最大值有$B$个。 　　$N&lt;&#x3D;1e5$，对$998244353$取模。 胡思乱想　　想了想，似乎很难找到线性状态往后递推的$dp$方程… 　　自闭自闭。 题解　　考虑一些性质。 　　首先长度为$n$的排列中，由于$n$是最大值，所以$n$后">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
+<meta property="article:published_time" content="2019-03-03T16:00:00.000Z">
+<meta property="article:modified_time" content="2019-12-11T03:10:26.917Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.jpg"><link rel="canonical" href="http://example.com/2019/03/04/[CF960G]Bandit%20Blues/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '$[CF960G]Bandit\ Blues$',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-12-11 11:10:26'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = url => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      link.onload = () => resolve()
+      link.onerror = () => reject()
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">12</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">3</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="Shallowy"><span class="site-name">Shallowy</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">$[CF960G]Bandit\ Blues$</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2019-03-03T16:00:00.000Z" title="Created 2019-03-04 00:00:00">2019-03-04</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2019-12-11T03:10:26.917Z" title="Updated 2019-12-11 11:10:26">2019-12-11</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="$[CF960G]Bandit\ Blues$"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2><p>　　定义序列中“前缀最大值”为大于前面所有数的数值，“后缀最大值”定义相反。</p>
+<p>　　求有多少长度为$n$的<strong>排列</strong>使得前缀最大值有$A$个，后缀最大值有$B$个。</p>
+<p>　　$N&lt;&#x3D;1e5$，对$998244353$取模。</p>
+<h2 id="胡思乱想"><a href="#胡思乱想" class="headerlink" title="胡思乱想"></a>胡思乱想</h2><p>　　想了想，似乎很难找到线性状态往后递推的$dp$方程…</p>
+<p>　　自闭自闭。</p>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>　　考虑一些<strong>性质</strong>。</p>
+<p>　　首先长度为$n$的排列中，由于$n$是最大值，所以$n$后面的所有数不可能再成为前缀最大值，同理$n$前面的数也不可能成为后缀最大值。</p>
+<p>　　于是可以分成$n$的左右两部分<strong>分别计算前缀最大值</strong>再统计。</p>
+<p>　　我们设**$s(n,m)$表示长度为$n$的排列中有$m$个最大前缀和的方案数<strong>。转移时考虑</strong>最小值**的位置，有</p>
+<p>$$s(n,m)&#x3D;s(n-1,m-1)+(n-1)\times s(n-1,m)$$</p>
+<p>　　这不就是<strong>无符号的第一类斯特林数</strong>嘛！</p>
+<p>　　我们尝试合并出答案，设**$f(n,a,b)$表示长度为$a$，前缀最大值有$a$个，后缀最大值有$b$个的方案数<strong>，</strong>枚举最大值$n$的位置**容易得到</p>
+<p>$$f(n,a,b)&#x3D;\sum\limits_{i&#x3D;1}^{n}s(i-1,a-1)\times s(n-i,b-1)\times C_{n-1}^{i-1}$$</p>
+<p>　　因为$s(n,m)$不限制排列中是哪些数，所以要乘个组合数。</p>
+<h3 id="这样肯定不能直接做，怎么办呢？"><a href="#这样肯定不能直接做，怎么办呢？" class="headerlink" title="这样肯定不能直接做，怎么办呢？"></a>这样肯定不能直接做，怎么办呢？</h3><p>　　我们先求出$s(n-1,A+B-2)$，相当于把除$n$以外的数按照条件排好。</p>
+<p>　　然后我们把上面式子中的<strong>每个前缀最大值的位置一直到它下一个前缀最大值前的那一段</strong>绑起来看作一块。这样我们得到了总共$A+B-2$块。</p>
+<p>　　然后我们只要在这些块里取出$A-1$块放到答案排列中$n$前面，另外$B-1$块放在后面即可。</p>
+<p>$$f(n,A,B)&#x3D;s(n-1,A+B-2)\times C_{A+B-2}^{A-1}$$</p>
+<p>　　最后只要分治套$FFT$或者倍增求一个第一类斯特林数即可。</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><script type="text/plain" class="lang-cpp line-numbers">#include <iostream>
+#include <cstdio>
+#include <cctype>
+#include <vector>
+#define il inline
+#define vd void
+#define rg register
+#define G 3
+#define P 998244353
+#define mn 132333
+#define rep(i,x,y) for(rg int i=x;i<=y;++i)
+#define drp(i,x,y) for(rg int i=x;i>=y;--i)
+using namespace std;
+const int Len=2333333;
+char buf[Len],*p1=buf,*p2=buf,duf[Len],*q1=duf;
+il char gc(); il int rd(); il vd pc(char c); il vd rt(int x); il vd flush();
+il int Pow(int a,int b){int ans=1; for(a%=P;b;b&1?ans=1ll*ans*a%P:0,a=1ll*a*a%P,b>>=1); return ans;}
+int n,A,B,N=1,l=-1,r[mn];
+il vd NTT(vector <int> &a,int o){int x,y;
+    for(rg int i=0;i<N;++i) if(i<r[i]) swap(a[i],a[r[i]]);
+    for(rg int i=1;i<N;i<<=1){
+        int p=i<<1,c=Pow(G,(P-1)/p);
+        if(o) c=Pow(c,P-2);
+        for(rg int j=0;j<N;j+=p)
+            for(rg int k=0,w=1;k<i;++k,w=1ll*w*c%P)
+                x=a[j+k],y=1ll*w*a[j+k+i]%P,a[j+k]=(x+y)%P,a[j+k+i]=(x-y+P)%P;
+    }
+    if(o){
+        int inv=Pow(N,P-2);
+        for(rg int i=0;i<N;++i) a[i]=1ll*a[i]*inv%P;
+    }
+}
+il int Fac(int x){int ans=1; rep(i,2,x) ans=1ll*ans*i%P; return ans;}
+il int C(int n,int m){
+    if(n<m) return 0;
+    return 1ll*Fac(n)*Pow(Fac(m),P-2)%P*Pow(Fac(n-m),P-2)%P;
+}
+il vd Pre(int len){
+    N=1,l=-1;
+    while(N<=len) N<<=1,++l;
+    for(rg int i=0;i<N;++i) r[i]=(r[i>>1]>>1)|((i&1)<<l);
+}
+vector <int> Solve(int l,int r){
+    if(l==r) return {l,1};
+    int mid=(l+r)>>1;
+    vector <int> a=Solve(l,mid),b=Solve(mid+1,r);
+    int len=a.size()+b.size()-2;
+    Pre(len),a.resize(N),b.resize(N),NTT(a,0),NTT(b,0);
+    for(rg int i=0;i<N;++i) a[i]=1ll*a[i]*b[i]%P;
+    NTT(a,1),a.resize(len+1);
+    return a;
+}
+int main(){
+    n=rd(),A=rd(),B=rd();
+    if(!A||!B) return puts("0"),0;
+    if(n==1) return puts(A+B==2?"1":"0"),0;
+    vector <int> f=Solve(0,n-2);
+    //for(rg int i=0;i<(int)f.size();++i) printf("%d ",f[i]);
+    f.resize(n+n+1);
+    rt(1ll*f[A+B-2]*C(A+B-2,A-1)%P);
+    return flush(),0;
+}
+
+il char gc(){return p1==p2&&(p2=(p1=buf)+fread(buf,1,Len,stdin),p1==p2)?-1:*p1++;}
+il int rd(){char c;
+    while(!isdigit(c=gc())&&c!='-');
+    int f=c=='-'?c=gc(),1:0,x=c^48;
+    while(isdigit(c=gc())) x=((x+(x<<2))<<1)+(c^48);
+    return f?-x:x;
+}
+il vd pc(char c){q1==duf+Len&&fwrite(q1=duf,1,Len,stdout),*q1++=c;}
+il vd rt(int x){x<0?pc('-'),x=-x:0,pc((x>=10?rt(x/10),x%10:x)+48);}
+il vd flush(){fwrite(duf,1,q1-duf,stdout);}
+</script></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="http://example.com">John Doe</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://example.com/2019/03/04/[CF960G]Bandit%20Blues/">http://example.com/2019/03/04/[CF960G]Bandit%20Blues/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/05/28/PKUSC2019%E5%AE%89%E6%85%B0%E5%89%82/" title="$PKUSC2019$安慰剂"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">$PKUSC2019$安慰剂</div></div></a></div><div class="next-post pull-right"><a href="/2019/01/27/PKUWC2019%E6%8E%BC%E8%9B%8B%E8%AE%B0/" title="$PKUWC2019$掼蛋记"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">$PKUWC2019$掼蛋记</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">John Doe</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">12</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">3</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E6%84%8F"><span class="toc-number">1.</span> <span class="toc-text">题意</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%A1%E6%80%9D%E4%B9%B1%E6%83%B3"><span class="toc-number">2.</span> <span class="toc-text">胡思乱想</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E8%A7%A3"><span class="toc-number">3.</span> <span class="toc-text">题解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%99%E6%A0%B7%E8%82%AF%E5%AE%9A%E4%B8%8D%E8%83%BD%E7%9B%B4%E6%8E%A5%E5%81%9A%EF%BC%8C%E6%80%8E%E4%B9%88%E5%8A%9E%E5%91%A2%EF%BC%9F"><span class="toc-number">3.1.</span> <span class="toc-text">这样肯定不能直接做，怎么办呢？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-number">4.</span> <span class="toc-text">代码</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/01/22/Sublime%20Text%204%20C++%E4%BB%A3%E7%A0%81%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8%E9%85%8D%E7%BD%AE/" title="Sublime Text 4 C++代码自动补全配置">Sublime Text 4 C++代码自动补全配置</a><time datetime="2023-01-22T14:40:04.000Z" title="Created 2023-01-22 22:40:04">2023-01-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/01/04/c%E5%B0%8F%E7%A8%8B%E7%9F%A5%E8%AF%86%E7%82%B9%E5%A4%8D%E4%B9%A0/" title="c小程知识点复习">c小程知识点复习</a><time datetime="2023-01-04T06:47:15.000Z" title="Created 2023-01-04 14:47:15">2023-01-04</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/12/19/%E5%8D%9A%E5%BC%88%E8%AE%BA%E9%A2%98%E9%9B%86/" title="博弈论题集">博弈论题集</a><time datetime="2022-12-19T14:19:10.000Z" title="Created 2022-12-19 22:19:10">2022-12-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2020/10/04/Downloads/" title="$Downloads$">$Downloads$</a><time datetime="2020-10-04T14:48:40.000Z" title="Created 2020-10-04 22:48:40">2020-10-04</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2019/12/20/%E6%97%A0%E9%A2%98/" title="无题">无题</a><time datetime="2019-12-20T12:32:25.000Z" title="Created 2019-12-20 20:32:25">2019-12-20</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By John Doe</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
